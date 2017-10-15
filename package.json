@@ -1,0 +1,17 @@
+{
+  "name": "dawnbotradio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "author": "Fabricio Bezerra",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "mout": "^1.1.0",
+    "node-opus": "^0.2.7",
+    "sodium": "^2.0.1"
+  }
+}
