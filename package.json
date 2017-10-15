@@ -9,7 +9,9 @@
   "author": "Fabricio Bezerra",
   "license": "ISC",
   "dependencies": {
+    "bufferutil": "^3.0.2",
     "discord.js": "^11.2.1",
+    "erlpack": "github:discordapp/erlpack",
     "opusscript": "0.0.4",
     "sodium": "^2.0.1"
   },
