@@ -12,5 +12,8 @@
     "discord.js": "^11.2.1",
     "node-opus": "^0.2.7",
     "sodium": "^2.0.1"
+  }, "engines": {
+    "node": "8.6.0",
+    "npm": "5.5.1"
   }
 }
