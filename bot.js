@@ -18,6 +18,7 @@ client.on('message', message => {
       message.member.voiceChannel.join()
         .then(connection => { // Connection is an instance of VoiceConnection
           message.reply('I have successfully connected to the channel!');
+          // Replace with whatever radio link you are trying to play
           const dispatcher = connection.playArbitraryInput('http://lainhouse.com.br:8000/');
           console.log('Trying to play the thing');
           dispatcher.setVolume(0.3);
@@ -36,4 +37,4 @@ client.on('message', message => {
   }
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN); // Replace with your bot token
