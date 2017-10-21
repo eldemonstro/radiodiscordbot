@@ -8,6 +8,15 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.author.id == client.user.id) return;
+
+  if (message.content === 'ping') {
+    if (process.env.NODE_ENV == 'development') {
+      message.reply("I'm in development mode, yay");
+    } else {
+      message.reply('pong');
+    }
+  }
+
   if (!message.content.startsWith(config.prefix)) return;
 
   let args = message.content.substring(config.prefix.length).match(/\S+/g);
@@ -19,14 +28,6 @@ client.on('message', message => {
   if (message.author.id != config.ownerID) {
     message.reply("I'm in development mode right now, sorry :(")
     return;
-  }
-
-  if (message.content === 'ping') {
-    if (process.env.NODE_ENV == 'development') {
-      message.reply("I'm in development mode, yay");
-    } else {
-      message.reply('pong');
-    }
   }
 
   if (!message.guild) return;
