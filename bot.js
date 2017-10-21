@@ -1,11 +1,26 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const config = require('./config');
 
 client.on('ready', () => {
   console.log('I am ready!');
 });
 
 client.on('message', message => {
+  if (message.author.id == client.user.id) return;
+  if (!message.content.startsWith(config.prefix)) return;
+
+  let args = message.content.substring(config.prefix.length).match(/\S+/g);
+  if (args == null) {
+    message.reply('Please send a commmand');
+    return;
+  }
+
+  if (message.author.id != config.ownerID) {
+    message.reply("I'm in development mode right now, sorry :(")
+    return;
+  }
+
   if (message.content === 'ping') {
     if (process.env.NODE_ENV == 'development') {
       message.reply("I'm in development mode, yay");
@@ -16,15 +31,14 @@ client.on('message', message => {
 
   if (!message.guild) return;
 
-  if (message.content === '/join') {
+  if (args[0] === 'join') {
     // Only try to join the sender's voice channel if they are in one themselves
     if (message.member.voiceChannel) {
       message.member.voiceChannel.join()
         .then(connection => { // Connection is an instance of VoiceConnection
           message.reply('I have successfully connected to the channel!');
           // Replace with whatever radio link you are trying to play
-          const dispatcher = connection.playArbitraryInput('http://lainhouse.com.br:8000/');
-          console.log('Trying to play the thing');
+          const dispatcher = connection.playArbitraryInput(config.defaultRadio);
           dispatcher.setVolume(0.3);
         })
         .catch(console.log);
@@ -33,7 +47,7 @@ client.on('message', message => {
     }
   }
 
-  if (message.content === '/leave') {
+  if (args[0] === 'leave') {
     // Only try to leave the sender's voice channel if they are in one themselves
     if (message.member.voiceChannel) {
       message.member.voiceChannel.leave();
@@ -56,4 +70,5 @@ process.on('SIGTERM', () => {
     });
 });
 
-client.login(process.env.TOKEN); // Replace with your bot token
+console.log(config);
+client.login(config.token); // Replace with your bot token
