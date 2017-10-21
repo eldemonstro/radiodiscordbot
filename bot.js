@@ -7,7 +7,11 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (message.content === 'ping') {
-    message.reply('pong');
+    if (process.env.NODE_ENV == 'development') {
+      message.reply("I'm in development mode, yay");
+    } else {
+      message.reply('pong');
+    }
   }
 
   if (!message.guild) return;
@@ -35,6 +39,21 @@ client.on('message', message => {
       message.member.voiceChannel.leave();
     }
   }
+});
+
+process.on('SIGINT', () => {
+  client.destroy()
+    .then(() => {
+      console.log('KTHXBYE')
+      process.exit(0);
+    });
+});
+process.on('SIGTERM', () => {
+  client.destroy()
+    .then(() => {
+      console.log('KTHXBYE')
+      process.exit(0);
+    });
 });
 
 client.login(process.env.TOKEN); // Replace with your bot token
