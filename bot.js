@@ -35,7 +35,7 @@ client.on('message', message => {
     return;
   }
 
-  if (message.author.id != config.ownerID) {
+  if (message.author.id != config.ownerID && process.env.NODE_ENV == 'development') {
     message.reply("I'm in development mode right now, sorry :(")
     return;
   }
