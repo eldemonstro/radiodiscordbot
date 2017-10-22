@@ -24,7 +24,7 @@ client.on('message', message => {
   }
 
   if (message.content.toLowerCase() == 'pong') {
-    message.channel.send(`How you want me to ping if you alread pong? But your time is ${client.ping}ms anyway ¯\\_(ツ)_/¯`);
+    message.channel.send(`How do you want me to ping if you alread pong? But your time is ${client.ping}ms anyway ¯\\_(ツ)_/¯`);
   }
 
   if (!message.content.startsWith(config.prefix)) return;
