@@ -4,17 +4,27 @@ const config = require('./config');
 
 client.on('ready', () => {
   console.log('I am ready!');
+  client.user.setPresence({
+    game: {
+      name: "_db help"
+    }
+  });
 });
 
 client.on('message', message => {
   if (message.author.id == client.user.id) return;
+  if (message.author.bot == true) return;
 
-  if (message.content === 'ping') {
+  if (message.content.toLowerCase() == 'ping') {
     if (process.env.NODE_ENV == 'development') {
-      message.reply("I'm in development mode, yay");
+      message.reply(`I'm in development mode, yay (also the time is ${client.ping}ms)`);
     } else {
-      message.reply('pong');
+      message.reply(`pong (also the time is ${client.ping}ms)`);
     }
+  }
+
+  if (message.content.toLowerCase() == 'pong') {
+    message.channel.send(`How you want me to ping if you alread pong? But your time is ${client.ping}ms anyway ¯\\_(ツ)_/¯`);
   }
 
   if (!message.content.startsWith(config.prefix)) return;
@@ -28,6 +38,33 @@ client.on('message', message => {
   if (message.author.id != config.ownerID) {
     message.reply("I'm in development mode right now, sorry :(")
     return;
+  }
+
+  if (args[0] === 'help') {
+    message.channel.send({
+      embed: {
+        author: {
+          name: client.user.username,
+          icon_url: client.user.avatarURL
+        },
+        timestamp: new Date(),
+        color: 3447003,
+        description: 'Use the bot however you want',
+        title: 'Here is your help:',
+        fields: [{
+            name: 'Require _db prefix',
+            value: helpMessagePrefix
+          },
+          {
+            name: 'Do not require _db prefix',
+            value: helpMessageNoPrefix
+          }
+        ],
+        footer: {
+          text: 'Good luck and get\'em boys'
+        }
+      }
+    });
   }
 
   if (!message.guild) return;
@@ -71,5 +108,12 @@ process.on('SIGTERM', () => {
     });
 });
 
-console.log(config);
+let helpMessageNoPrefix =
+  `**ping** will pong you
+**pong** will pong you too, pong pong is fun`
+
+let helpMessagePrefix = `**join** will join your voice channel and will play ${config.defaultRadioName}
+**leave** will leave the voice channel
+**help** will help you`
+
 client.login(config.token); // Replace with your bot token
